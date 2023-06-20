@@ -1,34 +1,51 @@
+//Command to run jacoco tests:
+//mvn clean package jacoco:report
+
 package com.example.stringcalculator;
 
 import org.springframework.stereotype.Service;
 
 @Service 
 public class StringCalculator {
+	
+	//public static String[] SEPERATORS = {","}; Not useful yet
+	
+	public boolean IsNumber(char num){
+		try {
+			int i = Integer.parseInt(Character.toString(num));
+		}
+		catch (NumberFormatException error){
+			return false;
+		}	
+		
+		return true;
+	}	
+	
+	public int NextSeperator(String numbers, int startPosition){
+		int position = startPosition;
+		while (position < numbers.length() && IsNumber(numbers.charAt(position))){
+			position++;
+		}
+		if (position == numbers.length()){
+			return -1; 		//reached end of string
+		}
+		return position;
+	}	
+	
 	public int Add(String numbers){
 		if (numbers == "") return 0;
 		
 		int startPos = 0;
-		int seperator = numbers.indexOf(",", startPos);
+		int seperator = NextSeperator(numbers, startPos);
 		int total = 0;
 		while (seperator > -1){
 			total += Integer.parseInt(numbers.substring(startPos,seperator));
 			startPos = seperator+1;
-			seperator = numbers.indexOf(",", startPos);
+			seperator = NextSeperator(numbers, startPos);
 		}	
 		total += Integer.parseInt(numbers.substring(startPos));
 		return total;
 		
-		
-		/*
-		if (!numbers.contains(",")){
-			return Integer.parseInt(numbers);
-		}
-		else {
-			int a = Integer.parseInt(numbers.substring(0,numbers.indexOf(",")));
-			int b = Integer.parseInt(numbers.substring(numbers.indexOf(",")+1));
-			return a + b;
-		}	
-		*/
 	}
 	
 }	

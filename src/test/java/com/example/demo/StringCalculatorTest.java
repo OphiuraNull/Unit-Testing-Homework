@@ -58,4 +58,11 @@ public class StringCalculatorTest {
 		int response = calc.Add(num);
 		assertEquals(21, response);
 	}
+	
+	@Test
+	void testNewlineAddDifferentSeperators(){
+		String num = "7\n14,31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
 }
