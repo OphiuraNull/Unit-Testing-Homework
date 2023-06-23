@@ -1,2 +1,7 @@
 # Unit Testing Homework
  Homework assigned by Bill for unit testing DEAP training 
+ 
+ 
+To run tests, use command - mvn clean package jacoco:report - in this directory.
+StringCalculator.java and StringCalaculatorTest.java are the files containing code.
+look inside target directory for index.html to view tests

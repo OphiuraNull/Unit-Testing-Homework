@@ -16,14 +16,14 @@ public class StringCalculatorTest {
 	@Test
 	void contextLoads() {
 	}
-	
+
 	@Test
 	void testEmptyAdd(){
 		String num = "";	
 		int response = calc.Add(num);
 		assertEquals(0, response);
 	}
-	
+		
 	@Test
 	void testSingleAdd(){
 		String num = "7";	
@@ -62,6 +62,43 @@ public class StringCalculatorTest {
 	@Test
 	void testNewlineAddDifferentSeperators(){
 		String num = "7\n14,31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+	
+	//TESTS FOR DATA VALIDATION - NOT PART OF SPEC (but using regex makes me feel like I'm cheating)
+	@Test
+	void testInvalidExtraSeperator(){
+		String num = "7,14\n,31";	
+		int response = calc.Add(num);
+		assertEquals(-1, response);
+	}
+	
+	@Test
+	void testInvalidCharacter(){
+		String num = "7,14b31";	
+		int response = calc.Add(num);
+		assertEquals(-1, response);
+	}
+	
+	@Test
+	void testInvalidDelimiter(){
+		String num = "7;14,31";	
+		int response = calc.Add(num);
+		assertEquals(-1, response);
+	}
+	
+	@Test
+	void testInvalidCustomSeperator(){
+		String num = "//;\n7,;14;31";	
+		int response = calc.Add(num);
+		assertEquals(-1, response);
+	}
+	//END OF VALIDATION TESTS
+	
+	@Test
+	void testCustomSeperator(){
+		String num = "//;\n7,14;31";	
 		int response = calc.Add(num);
 		assertEquals(52, response);
 	}
