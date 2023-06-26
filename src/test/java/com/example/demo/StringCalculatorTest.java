@@ -70,30 +70,93 @@ public class StringCalculatorTest {
 	@Test
 	void testInvalidExtraSeperator(){
 		String num = "7,14\n,31";	
-		int response = calc.Add(num);
-		assertEquals(-1, response);
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.genericError, e.getMessage());
+			return;
+		}	
+		fail();
 	}
 	
 	@Test
 	void testInvalidCharacter(){
 		String num = "7,14b31";	
-		int response = calc.Add(num);
-		assertEquals(-1, response);
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.genericError, e.getMessage());
+			return;
+		}	
+		fail();
 	}
 	
 	@Test
 	void testInvalidDelimiter(){
 		String num = "7;14,31";	
-		int response = calc.Add(num);
-		assertEquals(-1, response);
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.genericError, e.getMessage());
+			return;
+		}	
+		fail();
 	}
 	
 	@Test
 	void testInvalidCustomSeperator(){
 		String num = "//;\n7,;14;31";	
-		int response = calc.Add(num);
-		assertEquals(-1, response);
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.seperatorError, e.getMessage());
+			return;
+		}	
+		fail();
 	}
+	
+	@Test
+	void testInvalidCustomSeperator2(){
+		String num = "//;\n7;14;31;";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.seperatorError, e.getMessage());
+			return;
+		}	
+		fail();
+	}
+	
+	@Test
+	void testNegativeNumber(){
+		String num = "4,-3";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.negativeError+" -3", e.getMessage());
+			return;
+		}	
+		fail();
+	}	
+	
+	@Test
+	void testMultiNegativeNumbers(){
+		String num = "4,-3,-1,-13,5,-6";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.negativeError+" -3 -1 -13 -6", e.getMessage());
+			return;
+		}	
+		fail();
+	}	
 	//END OF VALIDATION TESTS
 	
 	@Test
@@ -102,4 +165,12 @@ public class StringCalculatorTest {
 		int response = calc.Add(num);
 		assertEquals(52, response);
 	}
+	
+	@Test
+	void testCustomSeperator2(){
+		String num = "//!\n7!14!31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+
 }

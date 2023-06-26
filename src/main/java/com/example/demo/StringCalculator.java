@@ -11,15 +11,12 @@ import java.util.regex.*;
 @Service 
 public class StringCalculator {
 	
+	static final String seperatorError = "Invalid argument given to Add function, validation failed. Make sure extra seperator is configured properly.";
+	static final String genericError = "Invalid argument given to Add function, validation failed.";
+	static final String negativeError = "Negatives not allowed.";
+	
 	public int Add(String numbers){
-		
-		try {
-			validateInput(numbers); 
-		}
-		catch (Exception e){
-			//System.out.println(e.getMessage());	
-			return -1;
-		}	
+		validateInput(numbers); 
 		
 		ArrayList <Integer> nums = getNumArray(numbers);
 		int total = 0;
@@ -27,24 +24,36 @@ public class StringCalculator {
 		for (int num:nums){
 			total += num;	
 		}
-			
+	
 		return total;
 	}
 	
-	public void validateInput(String str) throws Exception {
+	public void validateInput(String str){
+		validateNoNegatives(str);
 		
 		if (regexMatch(str,"^//\\D\n")){
 			if (!validateExtraSeperator(str)){
-				throw new Exception("Invalid argument given to Add function, validation failed. Make sure extra seperator is configured properly.");
+				throw new RuntimeException(seperatorError);
 			}	
 		}	
 		else {
 			
 			if (!regexMatch(str,"^(\\d+((,|\n)\\d+)*)?$")){
-					throw new Exception("Invalid argument given to Add function, validation failed.");
+					throw new RuntimeException(genericError);
 			}	
 		}
 		
+	}	
+	
+	public void validateNoNegatives(String str){
+		ArrayList<String> negatives = getAllRegexMatches(str, "-\\d+");
+		if (negatives.size() > 0){
+			String out = "";
+			for (String item:negatives){
+				out +=  " " + item;
+			}	
+			throw new RuntimeException(negativeError+out);
+		}	
 	}	
 	
 	public boolean validateExtraSeperator(String str){
@@ -101,44 +110,4 @@ public class StringCalculator {
 		
 	}	
 	
-	//Old Implementation that uses string methods (Only works up until question 3)
-	/*
-	public boolean IsNumber(char num){
-		try {
-			int i = Integer.parseInt(Character.toString(num));
-		}
-		catch (NumberFormatException error){
-			return false;
-		}	
-		
-		return true;
-	}	
-	
-	public int NextSeperator(String numbers, int startPosition){
-		int position = startPosition;
-		while (position < numbers.length() && IsNumber(numbers.charAt(position))){
-			position++;
-		}
-		if (position == numbers.length()){
-			return -1; 		//reached end of string
-		}
-		return position;
-	}	
-	
-	public int Add(String numbers){
-		if (numbers == "") return 0;
-		
-		int startPos = 0;
-		int seperator = NextSeperator(numbers, startPos);
-		int total = 0;
-		while (seperator > -1){
-			total += Integer.parseInt(numbers.substring(startPos,seperator));
-			startPos = seperator+1;
-			seperator = NextSeperator(numbers, startPos);
-		}	
-		total += Integer.parseInt(numbers.substring(startPos));
-		return total;
-		
-	}
-	*/
 }	
