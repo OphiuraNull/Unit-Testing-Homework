@@ -15,7 +15,11 @@ public class StringCalculator {
 	static final String genericError = "Invalid argument given to Add function, validation failed.";
 	static final String negativeError = "Negatives not allowed.";
 	
+	private static int timesCalled = 0;
+	
 	public int Add(String numbers){
+		timesCalled++;
+		
 		validateInput(numbers); 
 		
 		ArrayList <Integer> nums = getNumArray(numbers);
@@ -27,6 +31,10 @@ public class StringCalculator {
 	
 		return total;
 	}
+	
+	public static int getCalledCount(){
+		return timesCalled;
+	}	
 	
 	public void validateInput(String str){
 		validateNoNegatives(str);

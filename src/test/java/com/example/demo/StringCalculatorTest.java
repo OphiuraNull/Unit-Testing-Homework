@@ -66,6 +66,11 @@ public class StringCalculatorTest {
 		assertEquals(52, response);
 	}
 	
+	@Test
+	void testTimesCalled(){
+		assertEquals(7, StringCalculator.getCalledCount());
+	}
+	
 	//TESTS FOR DATA VALIDATION - NOT PART OF SPEC (but using regex makes me feel like I'm cheating)
 	@Test
 	void testInvalidExtraSeperator(){
