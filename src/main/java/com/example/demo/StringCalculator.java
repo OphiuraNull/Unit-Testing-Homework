@@ -26,7 +26,9 @@ public class StringCalculator {
 		int total = 0;
 		
 		for (int num:nums){
-			total += num;	
+			if (num <= 1000){
+				total += num;	
+			}	
 		}
 	
 		return total;
