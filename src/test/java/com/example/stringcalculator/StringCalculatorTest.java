@@ -173,6 +173,14 @@ public class StringCalculatorTest {
 		}	
 		fail();
 	}	
+		
+	@Test
+	void testFirstRegexMatchFail(){		//covers fail branch for getFirstRegexMatch utility function
+		String num = "1,2,3";	
+		String response = calc.getFirstRegexMatch(num,"a",0);
+		assertEquals("", response);
+	}
+	
 	//END OF VALIDATION TESTS
 	
 	@Test
@@ -197,6 +205,14 @@ public class StringCalculatorTest {
 		String num = "2,1001";	
 		int response = calc.Add(num);
 		assertEquals(2, response);
+	}
+	
+	@Test
+	void testMultiCharSeperator(){
+		expectedCallCount++;
+		String num = "//[...]\n1...2...3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
 	}
 	
 	@Test

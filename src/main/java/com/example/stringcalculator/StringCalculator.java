@@ -41,7 +41,7 @@ public class StringCalculator {
 	public void validateInput(String str){
 		validateNoNegatives(str);
 		
-		if (regexMatch(str,"^//\\D\n")){
+		if (regexMatch(str,"^//(\\D|\\[\\D+\\])\n")){
 			if (!validateExtraSeperator(str)){
 				throw new RuntimeException(seperatorError);
 			}	
@@ -67,9 +67,15 @@ public class StringCalculator {
 	}	
 	
 	public boolean validateExtraSeperator(String str){
-		String match = getFirstRegexMatch(str,"^//(\\D)\n",1);
 		
-		return regexMatch(str, "^//"+match+"\n(\\d+((,|\n|"+match+")\\d+)*)?$");
+		if (regexMatch(str, "^//(\\D)\n")){ //single char seperator case
+			String match = getFirstRegexMatch(str,"^//(\\D)\n",1);
+			return regexMatch(str, "^//"+match+"\n(\\d+((,|\n|"+match+")\\d+)*)?$");
+		}
+		else {	//multi char seperator case     WARNING: Doesnt work for seperators that are regex metacharacters, e.g. * or ?  FIX IT
+			String match = getFirstRegexMatch(str,"^//\\[(\\D+)\\]\n",1);
+			return regexMatch(str, "^//\\["+match+"\\]\n(\\d+((,|\n|"+match+")\\d+)*)?$");
+		}	
 		
 	}
 	
