@@ -200,6 +200,14 @@ public class StringCalculatorTest {
 	}
 	
 	@Test
+	void testCustomSeperatorC(){
+		expectedCallCount++;
+		String num = "//*\n7*14*31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+	
+	@Test
 	void testGreaterThan1000(){
 		expectedCallCount++;
 		String num = "2,1001";	
