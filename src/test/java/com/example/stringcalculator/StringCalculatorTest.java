@@ -192,6 +192,14 @@ public class StringCalculatorTest {
 	}
 	
 	@Test
+	void testGreaterThan1000(){
+		expectedCallCount++;
+		String num = "2,1001";	
+		int response = calc.Add(num);
+		assertEquals(2, response);
+	}
+	
+	@Test
 	void testTimesCalled(){
 		assertEquals(expectedCallCount, StringCalculator.getCalledCount());
 	}
