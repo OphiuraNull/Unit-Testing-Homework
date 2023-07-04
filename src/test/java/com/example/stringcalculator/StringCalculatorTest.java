@@ -19,7 +19,9 @@ public class StringCalculatorTest {
 	void contextLoads() {
 	}
 	
-	//TESTS ARE ASSIGNED PER QUESTION IN PDF
+	//TESTS ARE LABELED PER QUESTION IN PDF
+	
+	//Q1
 	
 	@Test
 	void testEmptyAdd(){
@@ -45,6 +47,8 @@ public class StringCalculatorTest {
 		assertEquals(11, response);
 	}
 	
+	//Q2
+	
 	@Test
 	void testTripleAdd(){
 		expectedCallCount++;
@@ -60,6 +64,8 @@ public class StringCalculatorTest {
 		int response = calc.Add(num);
 		assertEquals(51, response);
 	}
+	
+	//Q3
 	
 	@Test
 	void testNewlineAdd(){
@@ -77,7 +83,131 @@ public class StringCalculatorTest {
 		assertEquals(52, response);
 	}
 	
-	//TESTS FOR DATA VALIDATION - NOT PART OF SPEC (but using regex makes me feel like I'm cheating)
+	//Q4
+	
+	@Test
+	void testCustomSeperatorA(){
+		expectedCallCount++;
+		String num = "//;\n7,14;31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+	
+	@Test
+	void testCustomSeperatorB(){
+		expectedCallCount++;
+		String num = "//!\n7!14!31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+	
+	@Test
+	void testCustomSeperatorC(){
+		expectedCallCount++;
+		String num = "//*\n7*14*31";	
+		int response = calc.Add(num);
+		assertEquals(52, response);
+	}
+	
+	//Q5
+	
+	@Test
+	void testNegativeNumber(){
+		expectedCallCount++;
+		String num = "4,-3";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.negativeError+" -3", e.getMessage());
+			return;
+		}	
+		fail();
+	}	
+	
+	//Q6
+	
+	@Test
+	void testMultiNegativeNumbers(){
+		expectedCallCount++;
+		String num = "4,-3,-1,-13,5,-6";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.negativeError+" -3 -1 -13 -6", e.getMessage());
+			return;
+		}	
+		fail();
+	}	
+	
+	//Q7
+	
+	@Test
+	void testTimesCalled(){
+		assertEquals(expectedCallCount, StringCalculator.getCalledCount());
+	}
+	
+	//Q8 NOT IMPLEMENTED cos Im not touching .NET in this excercise
+	
+	//Q9
+	
+	@Test
+	void testGreaterThan1000(){
+		expectedCallCount++;
+		String num = "2,1001";	
+		int response = calc.Add(num);
+		assertEquals(2, response);
+	}
+	
+	//Q10
+	
+	@Test
+	void testSeperatorInBrackets(){
+		expectedCallCount++;
+		String num = "//[;]\n1;2;3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
+	void testMultiCharSeperatorA(){
+		expectedCallCount++;
+		String num = "//[...]\n1...2...3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
+	void testMultiCharSeperatorB(){
+		expectedCallCount++;
+		String num = "//[***]\n1***2***3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	//Q11
+	
+	@Test
+	void testMultiSeperatorsInBrackets(){
+		expectedCallCount++;
+		String num = "//[;][?]\n1;2?3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	//Q12
+	
+	@Test
+	void testMultiLongSeperatorsInBrackets(){
+		expectedCallCount++;
+		String num = "//[;;;][??]\n1??2;;;3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	
+	//TESTS FOR DATA VALIDATION - NOT PART OF SPEC (but using regex makes me feel like I'm cheating, cos Add() works just fine even with bad input as defined by spec)
 	@Test
 	void testInvalidExtraSeperator(){
 		expectedCallCount++;
@@ -147,35 +277,7 @@ public class StringCalculatorTest {
 		}	
 		fail();
 	}
-	
-	@Test
-	void testNegativeNumber(){
-		expectedCallCount++;
-		String num = "4,-3";	
-		try{
-			int response = calc.Add(num);
-		}	
-		catch(RuntimeException e){
-			assertEquals(StringCalculator.negativeError+" -3", e.getMessage());
-			return;
-		}	
-		fail();
-	}	
-	
-	@Test
-	void testMultiNegativeNumbers(){
-		expectedCallCount++;
-		String num = "4,-3,-1,-13,5,-6";	
-		try{
-			int response = calc.Add(num);
-		}	
-		catch(RuntimeException e){
-			assertEquals(StringCalculator.negativeError+" -3 -1 -13 -6", e.getMessage());
-			return;
-		}	
-		fail();
-	}	
-		
+			
 	@Test
 	void testFirstRegexMatchFail(){		//covers fail branch for getFirstRegexMatch utility function
 		String num = "1,2,3";	
@@ -198,82 +300,5 @@ public class StringCalculatorTest {
 	}
 	
 	//END OF VALIDATION TESTS
-	
-	@Test
-	void testCustomSeperatorA(){
-		expectedCallCount++;
-		String num = "//;\n7,14;31";	
-		int response = calc.Add(num);
-		assertEquals(52, response);
-	}
-	
-	@Test
-	void testCustomSeperatorB(){
-		expectedCallCount++;
-		String num = "//!\n7!14!31";	
-		int response = calc.Add(num);
-		assertEquals(52, response);
-	}
-	
-	@Test
-	void testCustomSeperatorC(){
-		expectedCallCount++;
-		String num = "//*\n7*14*31";	
-		int response = calc.Add(num);
-		assertEquals(52, response);
-	}
-	
-	@Test
-	void testGreaterThan1000(){
-		expectedCallCount++;
-		String num = "2,1001";	
-		int response = calc.Add(num);
-		assertEquals(2, response);
-	}
-	
-	@Test
-	void testSeperatorInBrackets(){
-		expectedCallCount++;
-		String num = "//[;]\n1;2;3";	
-		int response = calc.Add(num);
-		assertEquals(6, response);
-	}
-	
-	@Test
-	void testMultiCharSeperatorA(){
-		expectedCallCount++;
-		String num = "//[...]\n1...2...3";	
-		int response = calc.Add(num);
-		assertEquals(6, response);
-	}
-	
-	@Test
-	void testMultiCharSeperatorB(){
-		expectedCallCount++;
-		String num = "//[***]\n1***2***3";	
-		int response = calc.Add(num);
-		assertEquals(6, response);
-	}
-	
-	@Test
-	void testMultiSeperatorsInBrackets(){
-		expectedCallCount++;
-		String num = "//[;][?]\n1;2?3";	
-		int response = calc.Add(num);
-		assertEquals(6, response);
-	}
-	
-	@Test
-	void testMultiLongSeperatorsInBrackets(){
-		expectedCallCount++;
-		String num = "//[;;;][??]\n1??2;;;3";	
-		int response = calc.Add(num);
-		assertEquals(6, response);
-	}
-	
-	@Test
-	void testTimesCalled(){
-		assertEquals(expectedCallCount, StringCalculator.getCalledCount());
-	}
 
 }

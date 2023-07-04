@@ -3,7 +3,7 @@
  
  
 To run tests, use command - mvn clean package jacoco:report - in this directory.
-StringCalculator.java and StringCalaculatorTest.java are the files containing my code.
+StringCalculator.java and StringCalculatorTest.java are the files containing my code.
 look inside target directory for index.html to view tests
 
 Question details are in the pdf
