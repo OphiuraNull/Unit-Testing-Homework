@@ -177,7 +177,7 @@ public class StringCalculatorTest {
 	@Test
 	void testFirstRegexMatchFail(){		//covers fail branch for getFirstRegexMatch utility function
 		String num = "1,2,3";	
-		String response = calc.getFirstRegexMatch(num,"a",0);
+		String response = calc.getFirstRegexMatch(num,"a");
 		assertEquals("", response);
 	}
 	
@@ -216,9 +216,17 @@ public class StringCalculatorTest {
 	}
 	
 	@Test
-	void testMultiCharSeperator(){
+	void testMultiCharSeperatorA(){
 		expectedCallCount++;
 		String num = "//[...]\n1...2...3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
+	void testMultiCharSeperatorB(){
+		expectedCallCount++;
+		String num = "//[***]\n1***2***3";	
 		int response = calc.Add(num);
 		assertEquals(6, response);
 	}

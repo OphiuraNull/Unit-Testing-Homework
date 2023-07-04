@@ -71,15 +71,20 @@ public class StringCalculator {
 		//WARNING: Doesnt work for seperators that are regex metacharacters, e.g. * or ?  FIX IT
 		
 		if (regexMatch(str, "^//(\\D)\n")){ //single char seperator case
-			String match = getFirstRegexMatch(str,"^//(\\D)\n",1);
+			String match = escapeSpecialChars(getFirstRegexMatch(str,"^//(\\D)\n",1));
 			return regexMatch(str, "^//"+match+"\n(\\d+((,|\n|"+match+")\\d+)*)?$");
 		}
 		else {	//multi char seperator case     
-			String match = getFirstRegexMatch(str,"^//\\[(\\D+)\\]\n",1);
+			String match = escapeSpecialChars(getFirstRegexMatch(str,"^//\\[(\\D+)\\]\n",1));
+			//System.out.println("Regex match: "+match);
 			return regexMatch(str, "^//\\["+match+"\\]\n(\\d+((,|\n|"+match+")\\d+)*)?$");
 		}	
 		
 	}
+	
+	public String escapeSpecialChars(String str){	//used to \\escape regex's reserved characters
+		return str.replaceAll("[\\\\\\^\\$\\.\\|\\?\\*\\+]","\\\\$0");
+	}	
 	
 	public ArrayList<Integer> getNumArray(String numbers){	//Returns array of all numbers from input string
 		
@@ -111,6 +116,10 @@ public class StringCalculator {
 		else{
 			return "";
 		}		
+	}	
+	
+	public String getFirstRegexMatch(String str, String regexPattern){		//overloaded method using default group value of 0
+		return getFirstRegexMatch(str, regexPattern, 0);
 	}	
 	
 	public ArrayList<String> getAllRegexMatches(String str, String regexPattern){		//returns array of ALL regex matches for a pattern and string
