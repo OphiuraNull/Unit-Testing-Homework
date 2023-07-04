@@ -18,7 +18,9 @@ public class StringCalculatorTest {
 	@Test
 	void contextLoads() {
 	}
-
+	
+	//TESTS ARE ASSIGNED PER QUESTION IN PDF
+	
 	@Test
 	void testEmptyAdd(){
 		expectedCallCount++;
@@ -181,6 +183,20 @@ public class StringCalculatorTest {
 		assertEquals("", response);
 	}
 	
+	@Test
+	void testInvalidMultiSeperators(){
+		expectedCallCount++;
+		String num = "//[;;][..]\n7;;14...31";	
+		try{
+			int response = calc.Add(num);
+		}	
+		catch(RuntimeException e){
+			assertEquals(StringCalculator.seperatorError, e.getMessage());
+			return;
+		}	
+		fail();
+	}
+	
 	//END OF VALIDATION TESTS
 	
 	@Test
@@ -216,6 +232,14 @@ public class StringCalculatorTest {
 	}
 	
 	@Test
+	void testSeperatorInBrackets(){
+		expectedCallCount++;
+		String num = "//[;]\n1;2;3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
 	void testMultiCharSeperatorA(){
 		expectedCallCount++;
 		String num = "//[...]\n1...2...3";	
@@ -227,6 +251,22 @@ public class StringCalculatorTest {
 	void testMultiCharSeperatorB(){
 		expectedCallCount++;
 		String num = "//[***]\n1***2***3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
+	void testMultiSeperatorsInBrackets(){
+		expectedCallCount++;
+		String num = "//[;][?]\n1;2?3";	
+		int response = calc.Add(num);
+		assertEquals(6, response);
+	}
+	
+	@Test
+	void testMultiLongSeperatorsInBrackets(){
+		expectedCallCount++;
+		String num = "//[;;;][??]\n1??2;;;3";	
 		int response = calc.Add(num);
 		assertEquals(6, response);
 	}
